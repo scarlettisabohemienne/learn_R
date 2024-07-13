@@ -38,3 +38,10 @@ summary(f1)  #f1因子的汇总，和table啥区别？
 
 SD <- sd(c(1,2,6,10,15,26))
 SD
+
+# 上传到github
+# 1. r生成ssh key粘到github 终端里只有指明的文件git才会跟踪，先cd到git 项目的文件夹
+# git remote set-url origin git@github.com:scarlettisabohemienne/learn_R.git
+# ls -a | grep .git
+# 2. github里建repository r开一个新Project输入URL（非http）
+# 3.created a file, saved it, staged it, committed it，push!
