@@ -8,7 +8,7 @@ lg <- log(10) #option - 快速赋值 结果+命令
 lg
 seq(1,5)
 seq(1,5,0.5)#多一个by的参数
-help("seq") #了解包
+help("seq") #了解包,里面打双引号
 5%/%2 #整除，结果不四舍五入
 x1<-c(2,3, 5, 7,10) #函数c 向量形式赋值给变量x1
 x2<-c("A","B", "C","D") #char,输出后还带引号
@@ -17,7 +17,12 @@ x3<-1:5   #产生1-5直接连续整数数据 =seq(1,5)
 x3
 
 # r运算结果产生的全部是数据
-class(x1) #numeric&double的区别？
+class(x1) #numeric&double的区别？r里numeric可以包括double
+z <- 1.5
+is.numeric(z)  # TRUE
+is.double(z)  # TRUE
+typeof(z)  # "double"
+View(z) #View()大写 可以查看变量，新开一个小窗
 # 分类变量在r特指无序数据,因为有序的等级分类变量一般是作为数值变量
 # 根据变量属性进行分类，变量可以分为数值变量和分类变量 
 # 分类变量也就是无序变量叫做因子（factor）有3种:char,t/f,用整数替代的char(男1女2)
@@ -34,13 +39,13 @@ class(x4)
 f2<-factor(c(1,2,1,3,2,4,2,4,2,1), levels=c(2,1,4,3))#levels参数设定，对因子顺序进行重新排列，2作为参照
 f2
 f3<-factor(c(1,2,1,3,2,4,2,4,2,1), levels=c(2,1,4,3), 
-           labels = c("A","B","AB","O")) # <- 和=赋值啥区别？除了自定义变量以外的赋值用等号？
+           labels = c("A","B","AB","O")) # <-和=赋值区别: 除了新的自定义变量以外的赋值用等号， <- 优先级高于=
 f3
 
-table(f1)   #因子列表展示,但是什么顺序显示？
+table(f1)   #因子列表展示
 class(f1)  #查看f1的类型
 levels(f1)  #查看f1 因子的分组水平
-summary(f1)  #f1因子的汇总，和table啥区别？
+summary(f1)  #f1因子的汇总，table()是拿来生成table的，summary()是给你看个大概参数
 
 
 SD <- sd(c(1,2,6,10,15,26))
@@ -53,6 +58,7 @@ SD
 # 2. github里建repository r开一个新Project输入URL（非http）
 # 3.created a file, saved it, staged it, committed it，push!
 
+# 向量  同一向量不能混杂多种不同类型的数据 通过函数c( )实现向量创建功能
 # 向量子集提取一般采用中括号[ ]，【】里面写的是位置
 
 # 1.位置提取法
@@ -76,7 +82,7 @@ names(x1)<-c("two","thre","five","seve","ten")
 x1[c("thre","seve")] #出的结果类似矩阵
 
 # 5. subset函数生成子集  检索向量中满足条件的元素，提取出来：
-subset(x1, x1>3 & x1<8) #[1]针对的数据集叫x1 [2]x1要满足的条件 #刚才打了标签这里才有，不是非有不可
+subset(x1, x1>3 & x1<8) #[1]针对的数据集叫x1 [2]x1要满足的条件 #刚才打了标签这里才有标签，不是非有不可
 
 #向量的编辑   对已创建向量进行增加或删除元素。
 #（1）增加元素
@@ -104,6 +110,9 @@ sd(x1) #计算向量的均数
 sum(x1) #计算向量的总计
 median(x1)  #计算向量的中位数
 
+# rank( )，返回值是该向量中对应元素的“排名”。
+rank(x3,ties.method = "last")
+
 # 1.	创建矩阵 矩阵一般在向量的基础上产生，常用的函数为matrix()和dim( )
 # 函数matrix()，基本格式为：matrix(x, nrow=..., ncol=..., byrow=..., dimnames=...)byrow设置是否按行填充，默认为FALSE（按列填充）；dimnames用字符型向量表示矩阵的行名和列名。
 x<-1:6
@@ -114,3 +123,29 @@ a
 b<-matrix(x,nrow=3,ncol=2,byrow=T,dimnames=list(c("r1","r2","r3"), c("c1","c2")))
 b
 
+# 2.	矩阵索引（子集提取）位置提取
+a[1,2]  #返回矩阵a的第1行，第2列的元素
+a[2,]   #返回矩阵a的第2行
+a[,2]   #返回矩阵a的第2列
+a[c(1:2),]  #返回矩阵a的第1至第2行
+# 按名称索引：
+b["r2","c1"]  #返回矩阵c的第r2行，第c1列的元素
+
+# 数据库合并
+# 函数rbind(A,B), 纵向合并（增加行），要求列数相同；
+# 函数cbind(C,D), 横向合并（增加列），要求行数相同。
+# 注意：rbind(A,1) 相当于给矩阵A增加一行“1”。
+rbind(a,b)
+cbind(a,b)
+
+# 数据库删减
+a[-1,] #删除矩阵a的第一行
+a[-c(2:3),]#，删除矩阵a的第2至4行
+
+colSums(a)  #对矩阵的各列求和
+rowSums(a)  #对矩阵的各行求和
+colMeans(a)  #对矩阵的各列求均值
+rowMeans(a) #对矩阵的各行求均值
+
+x=sd(c(1,2,6,10,15,26))
+x
