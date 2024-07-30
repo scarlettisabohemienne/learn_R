@@ -255,3 +255,51 @@ as.matrix()           #转换为矩阵
 as.data.frame()       #转换为数据框
 
 #subset法提取行，$法提取列
+
+# 数据导入导出
+setwd("D:/R2022")   #setwd()语句，设置工作空间，设置的文件夹需事先在硬盘中建立，R语言无法创建新的文件夹
+getwd() #看当前在哪
+#复制物理地址时可能要改slash的方向 应为/
+# 法2：在Rstudio右下方的界面中：files——三个点 齿轮设置图标——set as working directory。
+# 以上都是临时的工作空间 若想永久：tools-global option-default wd
+
+elder1<-read.csv("elder1.csv")   #文件要加后缀名
+class(elder1)
+# <- 赋值的是global variable, =赋值的是 local variable，只作用于{}内
+View(elder1)
+
+# 读取spss数据需要加载“haven”或者“foreign”包,可以直接使用foreign包
+
+library(foreign)
+elder2<- read.spss("elder2.sav",to.data.frame=T)  #导入spss数据
+#3个小代码帮助了解数据特征
+View(elder2)
+str(elder2)
+dim(elder2)
+
+# 将R里的数据框形成新的文件导出，常用方式是write.csv格式
+# write.csv(x, file = "", na = "NA", row.names = False, col.names = TRUE)   
+# x指的数据框，file = ""保存的文件名，na = “NA”缺失值导出方式，col.names = TRUE ，第一行名导出，默认导出 
+
+write.csv(elder1, file = "eldernew.csv" , na = "")  #导出名为eldernew文件名的csv文件，缺失空格形式存在
+
+str(elder1)  #显示变量内容结果，包括变量名，变量类型，变量值等
+head(elder1)  #显示数据集前6行
+head(elder1,10) #自定义显示的行数，比如10行
+class(elder1)  #可以鉴定数据集是数据框、列表还是矩阵等
+class(elder1$weight)  #可以鉴定数据某一个变量是数值、字符串、还是分类变量等  结果是一个向量
+names(elder1)  # 显示数据集的各个变量名
+ncol(elder1)  #显示列数
+nrow(elder1)  # 显示行数
+colnames(elder1)  #列名也是所有的变量名
+dim(elder1)  #数据集有几行几列
+length(elder1$weight)  #某个变量有多少个记录，length(elder1)有多少列（包含缺失值）
+summary(elder1)  # 数值计算每一列均数、中位数、百分位数、最大最小值，字符串列出计数，一般用于数值型的变量
+table(elder2$sex)  #对分类变量分组汇总计数，table对一列进行分组
+table(elder2$sex, elder2$marriage)   #交叉表，根据两个变量形成交叉表
+colSums(elder1[,c(5,6)])  #多列计算时用col,计算5、6列观察值总计   #若一列中有na值结果就是na?-->查na.rm默认是true/false
+
+colMeans(elder1[,c("SBP","DBP")])  #计SBP、DBP两个变量的平均值
+colMeans(elder1[,c("SBP","height")]) 
+colMeans(elder1[,c("SBP","height")],na.rm = TRUE) #SBP中没有缺失值，height中有
+colMeans(elder1["SBP"]) #【】作为定位用，此处只看一个变量不用加,来分隔行和列了
